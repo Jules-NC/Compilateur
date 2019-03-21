@@ -10,11 +10,11 @@ public abstract class Test
        Expression mul = new Equal(plus, dix);
        
        PrettyPrintVisitor pp = new PrettyPrintVisitor();
-       
+       EvaluateVisitor v = new EvaluateVisitor();
        //System.out.println(mul instanceof Mul);
        
        
-       String res2 = pp.visit(mul);
+       Integer res2 = v.visit(mul);
        
        System.out.println(res2 + "\n");
     }
