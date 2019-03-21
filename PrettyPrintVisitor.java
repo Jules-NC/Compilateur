@@ -19,5 +19,11 @@ public class PrettyPrintVisitor extends VisitorExpression<String>{
         return "(" + d.getOp1().accept(this) + "/" + d.getOp2().accept(this) + ")";
     }
     
-
+    public String visit(Negative n){
+        return "-" + "(" + n.getExpression().accept(this) + ")";
+    }
+    
+    public String visit(Positive p){
+        return p.getExpression().accept(this);
+    }
 }

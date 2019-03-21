@@ -18,4 +18,12 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
     public Integer visit(Div d){
         return d.getOp1().accept(this) / d.getOp2().accept(this);
     }
+    
+    public Integer visit(Negative n){
+        return -1*n.getExpression().accept(this);
+    }
+    
+    public Integer visit(Positive n){
+        return 1*n.getExpression().accept(this);
+    }
 }

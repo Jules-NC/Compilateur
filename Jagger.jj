@@ -3,10 +3,8 @@ options { LOOKAHEAD=1; FORCE_LA_CHECK=true; }
 
 // Fonction principale
 PARSER_BEGIN(Jagger)
-public class Jagger
-{
-    public static void main(String args[]) throws ParseException
-    {
+public class Jagger {
+    public static void main(String args[]) throws ParseException {
         Jagger parser = new Jagger(System.in);
         parser.mainloop();
     }
@@ -32,7 +30,9 @@ void mainloop():
     (
       a=expression() <EOL> {
         PrettyPrintVisitor ppv = new PrettyPrintVisitor();
+        EvaluateVisitor ev = new EvaluateVisitor();
         System.out.println(ppv.visit(a));
+        System.out.println(ev.visit(a));
       }
     )*
     <EOF>
@@ -62,6 +62,14 @@ Expression term():
     )* { return a; }
 }
 
+Expression avantleplus();
+{Expression a, b}
+{
+	a=avantleplus(){
+		"++" b=avantleplus() {a = new Plus(new Num(1), b}
+	}?
+}
+
 // Factor of an expression.
 // F -> <NUMBER> | "(" E ")"
 Expression factor():
@@ -69,4 +77,6 @@ Expression factor():
 {
       t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
     | "(" e=expression() ")" { return e;}
+    | "+" e=expression() {return new Positive(e);}
+    | "-" e=expression() {return new Negative(e);}
 }
