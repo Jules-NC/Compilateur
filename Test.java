@@ -18,4 +18,22 @@ public abstract class Test
        
        System.out.println(res2 + "\n");
     }
+    
+   public static void TestCompare() {
+       Expression trois = new Num(3);
+       Expression deux = new Num(2);
+       Expression troisbis = new Num(2);
+       
+       Expression comphighegal = new GreaterOrEqualThan(trois, trois); // (3>=3) => 1
+       Expression complow = new LessThan(comphighegal, deux); 
+       
+       PrettyPrintVisitor ppv = new PrettyPrintVisitor();
+       EvaluateVisitor ev = new EvaluateVisitor();
+       
+       String res_ppv = ppv.visit(complow);
+       Integer res_ev = ev.visit(complow);
+       
+       System.out.println("Pretty print : " + res_ppv);
+       System.out.println("Evaluate : " + res_ev);
+   }
 } 
