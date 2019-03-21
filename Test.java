@@ -7,9 +7,8 @@ public abstract class Test
        Expression deux = new Num(2);
        Expression plus = new Add(trois, deux);
        Expression dix = new Num(10);
-       Expression mul = new Mul(plus, dix);
+       Expression mul = new Equal(plus, dix);
        
-       EvaluateVisitor v = new EvaluateVisitor();
        PrettyPrintVisitor pp = new PrettyPrintVisitor();
        
        //System.out.println(mul instanceof Mul);

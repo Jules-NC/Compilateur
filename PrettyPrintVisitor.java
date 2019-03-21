@@ -26,4 +26,28 @@ public class PrettyPrintVisitor extends VisitorExpression<String>{
     public String visit(Positive p){
         return p.getExpression().accept(this);
     }
+    
+    public String visit(Equal e) {
+        return "(" + e.getOp1().accept(this) + "=" + e.getOp2().accept(this) + ")";
+    }
+    
+    public String visit(NotEqual e) {
+        return "(" + e.getOp1().accept(this) + "<>" + e.getOp2().accept(this) + ")";
+    }
+    
+    public String visit(LessThan l) {
+        return "(" + l.getOp1().accept(this) + "<" + l.getOp2().accept(this) + ")";
+    }
+    
+    public String visit(GreaterThan g) {
+        return "(" + g.getOp1().accept(this) + ">" + g.getOp2().accept(this) + ")";
+    }
+    
+    public String visit(LessOrEqualThan l) {
+        return "(" + l.getOp1().accept(this) + "<=" + l.getOp2().accept(this) + ")";
+    }
+    
+    public String visit(GreaterOrEqualThan g) {
+        return "(" + g.getOp1().accept(this) + "=>" + g.getOp2().accept(this) + ")";
+    }
 }
