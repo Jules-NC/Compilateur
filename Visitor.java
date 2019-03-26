@@ -3,7 +3,8 @@ public abstract class Visitor<T>{
         return t.accept(this);
     }
 
-    public abstract T visit(SReturn b);
+    public abstract T visit(SReturn sr);
+    public abstract T visit(SBlock sb);
     public abstract T visit(IfThenElse i);
     public abstract T visit(Num n);
     public abstract T visit(Add a);

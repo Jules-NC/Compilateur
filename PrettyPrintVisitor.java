@@ -1,9 +1,21 @@
+import java.util.ArrayList;
+
 public class PrettyPrintVisitor extends Visitor<String> {
 
     public String visit(SReturn sr){
-        return sr.getExpression().accept(this);
+        return "[" + sr.getExpression().accept(this) + "]";
     }
     
+    public String visit(SBlock sb){
+        String res = "{\n";
+        ArrayList<Statement> statements = sb.getStatements();
+
+        for(Statement s : statements){
+            res += s.accept(this) + "\n";
+        }
+        res += "}";
+        return res;
+    }
     public String visit(IfThenElse i){
         return "lol";
     }

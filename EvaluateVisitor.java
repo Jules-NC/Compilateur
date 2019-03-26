@@ -1,7 +1,17 @@
+import java.util.ArrayList;
+
 public class EvaluateVisitor extends Visitor<Integer> {
 
     public Integer visit(SReturn sr){
         return sr.getExpression().accept(this);
+    }
+    
+    public Integer visit(SBlock sb){
+        ArrayList<Statement> statements = sb.getStatements();
+        for(Statement s : statements){
+            return s.accept(this);
+        }
+        return 0;
     }
     
     public Integer visit(IfThenElse i){

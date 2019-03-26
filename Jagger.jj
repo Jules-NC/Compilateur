@@ -25,10 +25,10 @@ TOKEN:
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
 void mainloop():
-{ Expression a; }
+{ Statement a; }
 {
     (
-      a=expression() <EOL> {
+      a=statement5() <EOL> {
         PrettyPrintVisitor ppv = new PrettyPrintVisitor();
         EvaluateVisitor ev = new EvaluateVisitor();
         System.out.println(ppv.visit(a));
@@ -38,12 +38,19 @@ void mainloop():
     <EOF>
 }
 
+
 /*
-Statement statement():
-{Statement a;}{
-	a=expression() ";" {return new SReturn(a);}
+Statement statement5():
+{Statement a; Expression b;}{
+	b=expression() ";" {return new SReturn(b);}
 }
 */
+
+Statement statement5():
+{Statement a; Expression b;}{
+	b=expression() ";" {return new SReturn(b);}
+}
+
 
 Expression expression():
 { Expression a,b; }
