@@ -84,6 +84,13 @@ Expression expression14():
 }
 
 Expression expression15():
+{ Expression a; }
+{
+    a=expression16() {return a; }
+    | "-" a=expression16() { return new Negative(a); }
+}
+
+Expression expression16():
 { Token t; Expression e; }
 {
       t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
