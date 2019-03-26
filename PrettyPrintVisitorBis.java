@@ -1,4 +1,4 @@
-public class PrettyPrintVisitorBis extends Visitor<String> {
+/* public class PrettyPrintVisitorBis extends Visitor<String> {
 
     public String visit(IfThenElse i){
         return "lol";
@@ -55,4 +55,4 @@ public class PrettyPrintVisitorBis extends Visitor<String> {
     public String visit(GreaterOrEqual g) {
         return "GREATEROREQUAL(" + g.getOp1().accept(this) + "," + g.getOp2().accept(this) + ")";
     }
-}
+}*/

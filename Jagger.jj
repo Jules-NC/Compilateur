@@ -28,7 +28,7 @@ void mainloop():
 { Statement a; }
 {
     (
-      a=statement5() <EOL> {
+      a=statement4() <EOL> {
         PrettyPrintVisitor ppv = new PrettyPrintVisitor();
         EvaluateVisitor ev = new EvaluateVisitor();
         System.out.println(ppv.visit(a));
@@ -39,16 +39,17 @@ void mainloop():
 }
 
 
-/*
-Statement statement5():
-{Statement a; Expression b;}{
-	b=expression() ";" {return new SReturn(b);}
+Statement statement4():
+{Expression a; Statement b, c;}{
+	b=statement5() {return b;}
+	| "if" "(" a=expression() ")" b=statement4() "else" c=statement4() {return new IfThenElse(a, b, c);}
 }
-*/
+
+
 
 Statement statement5():
 {Statement a; Expression b;}{
-	b=expression() ";" {return new SReturn(b);}
+	b = expression() ";" {return new SReturn(b);}
 }
 
 

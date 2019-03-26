@@ -2,25 +2,26 @@ import java.util.ArrayList;
 
 public class IfThenElse extends Statement {
     private Expression condition;
-    private ArrayList<Statement> thenList;
-    private ArrayList<Statement> elseList;
+    private Statement thenStatement;
+    private Statement elseStatement;
+    //private ArrayList<Statement> elseList;
 
-    public IfThenElse(Expression condition, ArrayList<Statement> thenList, ArrayList<Statement> elseList) {
+    public IfThenElse(Expression condition, Statement thenStatement, Statement elseStatement) {
         this.condition = condition;
-        this.thenList = thenList;
-        this.elseList = elseList;
+        this.thenStatement = thenStatement;
+        this.elseStatement = elseStatement;
     }
 
     public Expression getCondition() {
         return condition;
     }
-
-    public ArrayList<Statement> getThenList() {
-        return thenList;
+    
+    public Statement getThenStatement(){
+        return this.thenStatement;
     }
-
-    public ArrayList<Statement> getElseList() {
-        return elseList;
+    
+    public Statement getElseStatement(){
+        return this.elseStatement;
     }
 
     @Override

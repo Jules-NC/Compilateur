@@ -16,8 +16,12 @@ public class PrettyPrintVisitor extends Visitor<String> {
         res += "}";
         return res;
     }
+    
     public String visit(IfThenElse i){
-        return "lol";
+        String res = "IF({";
+        res += i.getCondition().accept(this);
+        res +="} " + i.getThenStatement().accept(this) + " | " + i.getElseStatement().accept(this) + ")";
+        return res;
     }
 
     public String visit(Num n) {
