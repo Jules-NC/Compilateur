@@ -1,4 +1,23 @@
-public class EvaluateVisitor extends VisitorExpression<Integer>{
+import java.util.ArrayList;
+
+public class EvaluateVisitor extends Visitor<Integer> {
+
+    public Integer visit(SReturn sr){
+        return sr.getExpression().accept(this);
+    }
+    
+    public Integer visit(SBlock sb){
+        ArrayList<Statement> statements = sb.getStatements();
+        for(Statement s : statements){
+            return s.accept(this);
+        }
+        return 0;
+    }
+    
+    public Integer visit(IfThenElse i){
+        return 1;
+    }
+
     public Integer visit(Num n){
         return n.getValue();
     }
@@ -24,6 +43,54 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
     }
     
     public Integer visit(Positive n){
-        return 1*n.getExpression().accept(this);
+        return n.getExpression().accept(this);
+    }
+    
+    public Integer visit(Equal e){
+        if(e.getOp1().accept(this) == e.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public Integer visit(NotEqual e){
+        if(e.getOp1().accept(this) != e.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public Integer visit(Less l){
+        if(l.getOp1().accept(this) < l.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public Integer visit(Greater g){
+        if(g.getOp1().accept(this) > g.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public Integer visit(LessOrEqual l){
+        if(l.getOp1().accept(this) <= l.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    public Integer visit(GreaterOrEqual g){
+        if(g.getOp1().accept(this) >= g.getOp2().accept(this)){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

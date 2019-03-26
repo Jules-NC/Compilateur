@@ -1,5 +1,6 @@
-public class Mul extends Binary{
-    public Mul(Expression op1, Expression op2){
+public class Equal extends Binary{
+    
+    public Equal(Expression op1, Expression op2){
         super(op1, op2);
     }
     
@@ -7,3 +8,4 @@ public class Mul extends Binary{
         return v.visit(this);
     }
 }
+    
