@@ -56,7 +56,7 @@ public class EvaluateVisitor extends Visitor<Integer> {
         }
     }
     
-    public Integer visit(GreaterThan g){
+    public Integer visit(Greater g){
         if(g.getOp1().accept(this) > g.getOp2().accept(this)){
             return 1;
         } else {

@@ -44,7 +44,7 @@ public class PrettyPrintVisitor extends Visitor<String> {
         return "(" + l.getOp1().accept(this) + "<" + l.getOp2().accept(this) + ")";
     }
     
-    public String visit(GreaterThan g) {
+    public String visit(Greater g) {
         return "(" + g.getOp1().accept(this) + ">" + g.getOp2().accept(this) + ")";
     }
     
