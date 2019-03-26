@@ -1,20 +1,12 @@
+# DIAGRAMME DE CLASSES:
+=======
+![Alphonse Robichu](https://media.discordapp.net/attachments/428691858634440707/560222461971660813/DiagClasses.png?width=960&height=386)
+
+
+
 Règles d'évaluation
 ===================
-
-La notation se fait selon la grille suivante, lue de façon flexible.  Par
-"flexible" comprendre que dans le cas d'un investissement manifeste mais avec
-des défauts, nous serons cléments ; en revanche, s'attendre à une notation
-sévère sur un rendu mal fini.
-
-Une parfaite réalisation jusqu'au point "if-then-else" assure un 8/20.  La
-notation finale du cours est ainsi faite :
-
-    if min(project, controle) <= 6 / 20 then
-       (project + controle) / 2
-    else
-       max(project, controle)
-
-La date de rendu est le **15 Avril 12h**.
+## La date de rendu est le **15 Avril 12h**.
 
 ## tarball correcte (1pt)
 Une tarball jagger-FOO.tar.bz2 où FOO est le nom du chef de groupe.  Quand on
