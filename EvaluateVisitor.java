@@ -1,4 +1,9 @@
-public class EvaluateVisitor extends VisitorExpression<Integer>{
+public class EvaluateVisitor extends Visitor<Integer> {
+
+    public Integer visit(IfThenElse i){
+        return 1;
+    }
+
     public Integer visit(Num n){
         return n.getValue();
     }
@@ -24,7 +29,7 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
     }
     
     public Integer visit(Positive n){
-        return 1*n.getExpression().accept(this);
+        return n.getExpression().accept(this);
     }
     
     public Integer visit(Equal e){
@@ -43,7 +48,7 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
         }
     }
     
-    public Integer visit(LessThan l){
+    public Integer visit(Less l){
         if(l.getOp1().accept(this) < l.getOp2().accept(this)){
             return 1;
         } else {
@@ -59,7 +64,7 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
         }
     }
     
-    public Integer visit(LessOrEqualThan l){
+    public Integer visit(LessOrEqual l){
         if(l.getOp1().accept(this) <= l.getOp2().accept(this)){
             return 1;
         } else {
@@ -67,7 +72,7 @@ public class EvaluateVisitor extends VisitorExpression<Integer>{
         }
     }
     
-    public Integer visit(GreaterOrEqualThan g){
+    public Integer visit(GreaterOrEqual g){
         if(g.getOp1().accept(this) >= g.getOp2().accept(this)){
             return 1;
         } else {

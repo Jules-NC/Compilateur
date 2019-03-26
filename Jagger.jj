@@ -3,8 +3,10 @@ options { LOOKAHEAD=1; FORCE_LA_CHECK=true; }
 
 // Fonction principale
 PARSER_BEGIN(Jagger)
-public class Jagger {
-    public static void main(String args[]) throws ParseException {
+public class Jagger
+{
+    public static void main(String args[]) throws ParseException
+    {
         Jagger parser = new Jagger(System.in);
         parser.mainloop();
     }
@@ -19,64 +21,85 @@ TOKEN:
 {
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
-|   < EOL: "\n" >                             // End of line.
+|   < EOL: "\n" >                           // End of line.
 }
 
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
 void mainloop():
-{ Expression a; }
+{ Exp a; }
 {
     (
-      a=expression() <EOL> {
-        PrettyPrintVisitor ppv = new PrettyPrintVisitor();
-        EvaluateVisitor ev = new EvaluateVisitor();
-        System.out.println(ppv.visit(a));
-        System.out.println(ev.visit(a));
-      }
+      a=expression() <EOL> { a.prettyPrint(); }
+      | "print(" a=expression() ")" <EOL> { EvaluateVisitor e = new EvaluateVisitor();
+                                            System.out.println(""+e.visit(a);}
     )*
     <EOF>
 }
 
+
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
-Expression expression():
-{ Expression a,b; }
+Exp expression():
+{ Exp a,b; }
 {
-    a=term()
-    (
-      "+" b=expression() { a=new Add(a, b); }
-    | "-" b=expression() { a=new Sub(a, b); }
-    )? { return a; }
+    a=expressionOne() { return a; }
 }
+
 
 // Term.
 // T -> F ('*'F | '/'F)*
-Expression term():
-{ Expression a,b; }
+Exp expressionOne():
+{ Exp a,b; }
 {
-    a=factor()
+    a=expressionTwo()
     (
-      "*" b=factor() { a=new Mul(a, b); }
-    | "/" b=factor() { a=new Div(a, b); }
-    )* { return a; }
+    "=="   b = expressionOne() { return new Equal(a,b);     }
+    |"!="  b = expressionOne() { return new NotEqual(a,b);  }
+    )? { return a; }
 }
 
-Expression avantleplus();
-{Expression a, b}
-{
-	a=avantleplus(){
-		"++" b=avantleplus() {a = new Plus(new Num(1), b}
-	}?
+Exp expressionTwo():
+{ Exp a,b; }{
+  a=expressionThree()
+  (
+    "<"   b = expressionTwo() { return new LessThan(a,b);     }
+    |"<=" b = expressionTwo() { return new LessOrEqual(a,b);  }
+    |">=" b = expressionTwo() { return new GreaterOrEqual(a,b); }
+    |">"  b = expressionTwo() { return new GreaterThan(a,b);    }
+  )? { return a; }
 }
 
+Exp expressionThree():
+{ Exp a,b; }{
+  a=expressionFour()
+  (
+    "+" b=expressionThree() { return new Add(a,b); }
+  | "-" b=expressionThree() { return new Sub(a,b); }
+  )? { return a; }
+}
+
+Exp expressionFour():
+{ Exp a,b; }{
+  a=expressionFive()
+  (
+    "*" b=expressionFour() { return new Mul(a,b); }
+  | "/" b=expressionFour() { return new Div(a,b); }
+  )? { return a; }
+}
+
+Exp expressionFive():
+{ Exp a; }{
+  a=expressionSix() { return a; }
+  | "-" a=expressionSix()    { return new Negative(a);}
+  | "+" a=expressionSix()     { return new Positive(a);}
+
+}
 // Factor of an expression.
 // F -> <NUMBER> | "(" E ")"
-Expression factor():
-{ Token t; Expression e; }
+Exp expressionSix():
+{ Token t; Exp e; }
 {
-      t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
-    | "(" e=expression() ")" { return e;}
-    | "+" e=expression() {return new Positive(e);}
-    | "-" e=expression() {return new Negative(e);}
+      t=<NUMBER> { return new Int(Integer.parseInt(t.toString())); }
+    | "(" e=expression() ")" { return e; }
 }

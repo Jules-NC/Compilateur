@@ -5,6 +5,12 @@
 /SimpleCharStream.java
 /Token.java
 /TokenMgrError.java
+/out/*
+/src/*
+.idea/*
+.idea
+*.iml
+*.xml
 
 # Compiled class file
 *.class

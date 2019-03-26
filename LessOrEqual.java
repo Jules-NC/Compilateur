@@ -1,6 +1,6 @@
-public class NotEqual extends Binary{
+public class LessOrEqual extends Binary{
     
-    public NotEqual(Expression op1, Expression op2){
+    public LessOrEqual(Expression op1, Expression op2){
         super(op1, op2);
     }
     

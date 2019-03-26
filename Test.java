@@ -1,5 +1,3 @@
-import static java.lang.System.out;
-
 public abstract class Test
 {
    public static void Test() {
@@ -19,13 +17,13 @@ public abstract class Test
        System.out.println(res2 + "\n");
     }
     
-   public static void TestCompare() {
+   public static void main() {
        Expression trois = new Num(3);
        Expression deux = new Num(2);
        Expression troisbis = new Num(2);
        
-       Expression comphighegal = new GreaterOrEqualThan(trois, trois); // (3>=3) => 1
-       Expression complow = new LessThan(comphighegal, deux); 
+       Expression comphighegal = new GreaterOrEqual(trois, trois); // (3>=3) => 1
+       Expression complow = new Less(comphighegal, deux);
        
        PrettyPrintVisitor ppv = new PrettyPrintVisitor();
        EvaluateVisitor ev = new EvaluateVisitor();

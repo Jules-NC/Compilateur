@@ -1,6 +1,11 @@
-public class PrettyPrintVisitor extends VisitorExpression<String>{
+public class PrettyPrintVisitor extends Visitor<String> {
+
+    public String visit(IfThenElse i){
+        return "lol";
+    }
+
     public String visit(Num n) {
-        return new Integer(n.getValue()).toString();
+        return Integer.toString(n.getValue());
     }
     
     public String visit(Add a) {
@@ -35,7 +40,7 @@ public class PrettyPrintVisitor extends VisitorExpression<String>{
         return "(" + e.getOp1().accept(this) + "<>" + e.getOp2().accept(this) + ")";
     }
     
-    public String visit(LessThan l) {
+    public String visit(Less l) {
         return "(" + l.getOp1().accept(this) + "<" + l.getOp2().accept(this) + ")";
     }
     
@@ -43,11 +48,11 @@ public class PrettyPrintVisitor extends VisitorExpression<String>{
         return "(" + g.getOp1().accept(this) + ">" + g.getOp2().accept(this) + ")";
     }
     
-    public String visit(LessOrEqualThan l) {
+    public String visit(LessOrEqual l) {
         return "(" + l.getOp1().accept(this) + "<=" + l.getOp2().accept(this) + ")";
     }
     
-    public String visit(GreaterOrEqualThan g) {
+    public String visit(GreaterOrEqual g) {
         return "(" + g.getOp1().accept(this) + "=>" + g.getOp2().accept(this) + ")";
     }
 }

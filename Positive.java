@@ -9,7 +9,7 @@ public class Positive extends Expression {
         return this.expr;
     }
     
-    public <T> T accept(VisitorExpression<T> v){
+    public <T> T accept(Visitor<T> v){
         return v.visit(this);
     }
 }

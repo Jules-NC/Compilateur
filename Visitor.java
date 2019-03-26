@@ -1,8 +1,13 @@
-public abstract class VisitorExpression<T>{
+public abstract class Visitor<T>{
+    public T visit(Statement t){
+        return t.accept(this);
+    }
+
     public T visit(Expression e) {
         return e.accept(this);
     }
-    
+
+    public abstract T visit(IfThenElse i);
     public abstract T visit(Num n);
     public abstract T visit(Add a);
     public abstract T visit(Sub s);
@@ -12,8 +17,8 @@ public abstract class VisitorExpression<T>{
     public abstract T visit(Positive p);
     public abstract T visit(Equal e);
     public abstract T visit(NotEqual n);
-    public abstract T visit(LessThan l);
+    public abstract T visit(Less l);
     public abstract T visit(GreaterThan g);
-    public abstract T visit(LessOrEqualThan l);
-    public abstract T visit(GreaterOrEqualThan g);
+    public abstract T visit(LessOrEqual l);
+    public abstract T visit(GreaterOrEqual g);
 }

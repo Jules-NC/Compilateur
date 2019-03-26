@@ -7,7 +7,7 @@ public class Num extends Expression{
     
     public int getValue(){return this.value;}
     
-    public <T> T accept(VisitorExpression<T> v){
+    public <T> T accept(Visitor<T> v){
         return v.visit(this);
     }
 }
