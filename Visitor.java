@@ -3,10 +3,7 @@ public abstract class Visitor<T>{
         return t.accept(this);
     }
 
-    public T visit(Expression e) {
-        return e.accept(this);
-    }
-
+    public abstract T visit(SReturn b);
     public abstract T visit(IfThenElse i);
     public abstract T visit(Num n);
     public abstract T visit(Add a);
@@ -18,7 +15,7 @@ public abstract class Visitor<T>{
     public abstract T visit(Equal e);
     public abstract T visit(NotEqual n);
     public abstract T visit(Less l);
-    public abstract T visit(GreaterThan g);
+    public abstract T visit(Greater g);
     public abstract T visit(LessOrEqual l);
     public abstract T visit(GreaterOrEqual g);
 }

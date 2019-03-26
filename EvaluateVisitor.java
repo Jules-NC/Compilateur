@@ -1,5 +1,9 @@
 public class EvaluateVisitor extends Visitor<Integer> {
 
+    public Integer visit(SReturn sr){
+        return sr.getExpression().accept(this);
+    }
+    
     public Integer visit(IfThenElse i){
         return 1;
     }
@@ -56,7 +60,7 @@ public class EvaluateVisitor extends Visitor<Integer> {
         }
     }
     
-    public Integer visit(GreaterThan g){
+    public Integer visit(Greater g){
         if(g.getOp1().accept(this) > g.getOp2().accept(this)){
             return 1;
         } else {

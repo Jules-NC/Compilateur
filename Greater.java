@@ -1,6 +1,6 @@
-public class GreaterThan extends Binary{
+public class Greater extends Binary{
     
-    public GreaterThan(Expression op1, Expression op2){
+    public Greater(Expression op1, Expression op2){
         super(op1, op2);
     }
     

@@ -1,5 +1,9 @@
 public class PrettyPrintVisitor extends Visitor<String> {
 
+    public String visit(SReturn sr){
+        return sr.getExpression().accept(this);
+    }
+    
     public String visit(IfThenElse i){
         return "lol";
     }
@@ -44,7 +48,7 @@ public class PrettyPrintVisitor extends Visitor<String> {
         return "(" + l.getOp1().accept(this) + "<" + l.getOp2().accept(this) + ")";
     }
     
-    public String visit(GreaterThan g) {
+    public String visit(Greater g) {
         return "(" + g.getOp1().accept(this) + ">" + g.getOp2().accept(this) + ")";
     }
     
