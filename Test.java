@@ -17,7 +17,7 @@ public abstract class Test
        System.out.println(res2 + "\n");
     }
     
-   public static void main() {
+   public static void tstEquality() {
        Expression trois = new Num(3);
        Expression deux = new Num(2);
        Expression troisbis = new Num(2);
@@ -34,4 +34,26 @@ public abstract class Test
        System.out.println("Pretty print : " + res_ppv);
        System.out.println("Evaluate : " + res_ev);
    }
+   
+   public static void testStatements(){
+       Expression trois = new Num(3);
+       Expression deux = new Num(2);
+       Expression troisbis = new Num(2);
+       
+       Expression comphighegal = new GreaterOrEqual(trois, trois); // (3>=3) => 1
+       Expression complow = new Less(comphighegal, deux);
+       
+       Statement endLol = new SReturn(complow);
+       
+       PrettyPrintVisitor ppv = new PrettyPrintVisitor();
+       EvaluateVisitor ev = new EvaluateVisitor();
+       
+       String res_ppv = ppv.visit(endLol);
+       Integer res_ev = ev.visit(endLol);
+       
+       System.out.println("Pretty print : " + res_ppv);
+       System.out.println("Evaluate : " + res_ev);
+   }
+   
+   
 } 

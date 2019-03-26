@@ -1,5 +1,9 @@
 public class EvaluateVisitor extends Visitor<Integer> {
 
+    public Integer visit(SReturn sr){
+        return sr.getExpression().accept(this);
+    }
+    
     public Integer visit(IfThenElse i){
         return 1;
     }

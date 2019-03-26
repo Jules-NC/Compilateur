@@ -38,6 +38,12 @@ void mainloop():
     <EOF>
 }
 
+/*
+Statement statement():
+{Statement a;}{
+	a=expression() ";" {return new SReturn(a);}
+}
+*/
 
 Expression expression():
 { Expression a,b; }
