@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class IfThenElse extends Statement {
     private Expression condition;
     private Statement thenStatement;
@@ -25,7 +23,6 @@ public class IfThenElse extends Statement {
     }
 
     @Override
-    public <T> T accept(Visitor<T> v) {
-        return v.visit(this);
+    public void accept(Visitor v){  v.visit(this);
     }
 }

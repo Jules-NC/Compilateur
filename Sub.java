@@ -3,7 +3,6 @@ public class Sub extends Binary{
         super(op1, op2);
     }
 
-    public <T> T accept(Visitor<T> v){
-        return v.visit(this);
+    public void accept(Visitor v){  v.visit(this);
     }
 }

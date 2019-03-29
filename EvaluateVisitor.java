@@ -1,100 +1,154 @@
 import java.util.ArrayList;
 
-public class EvaluateVisitor extends Visitor<Integer> {
+public class EvaluateVisitor extends Visitor{
+    public int INT_VALUE = 0;
+    public String STR_VALUE = "";
 
-    public Integer visit(Print p) {
-       return p.getExpression().accept(this);
+
+    public void visit(SExpression se){
+        se.getExpression().accept(this);
     }
-    
-    public Integer visit(SReturn sr){
-        return sr.getExpression().accept(this);
-    }
-    
-    public Integer visit(SBlock sb){
-        ArrayList<Statement> statements = sb.getStatements();
+    public void visit(Scope se){
+        ArrayList<Statement> statements = se.getStatements();
         for(Statement s : statements){
-            return s.accept(this);
+            s.accept(this);
         }
-        return 0;
-    }
-    
-    public Integer visit(IfThenElse i){
-        return 1;
     }
 
-    public Integer visit(Num n){
-        return n.getValue();
+    public void visit(Print p) {
+        p.getExpression().accept(this);
     }
     
-    public Integer visit(Add a){
-        return a.getOp1().accept(this) + a.getOp2().accept(this);
-    }
-    
-    public Integer visit(Sub s){
-        return s.getOp1().accept(this) - s.getOp2().accept(this);
-    }
-    
-    public Integer visit(Mul m){
-        return m.getOp1().accept(this) * m.getOp2().accept(this);
-    }
-    
-    public Integer visit(Div d){
-        return d.getOp1().accept(this) / d.getOp2().accept(this);
-    }
-    
-    public Integer visit(Negative n){
-        return -1*n.getExpression().accept(this);
-    }
-    
-    public Integer visit(Positive n){
-        return n.getExpression().accept(this);
-    }
-    
-    public Integer visit(Equal e){
-        if(e.getOp1().accept(this) == e.getOp2().accept(this)){
-            return 1;
+    public void visit(IfThenElse i){
+        i.getCondition().accept(this);
+        int tmp1 = this.INT_VALUE;
+
+        if(tmp1 == 1){
+            i.getThenStatement().accept(this);
         } else {
-            return 0;
+            i.getElseStatement().accept(this);
         }
     }
-    
-    public Integer visit(NotEqual e){
-        if(e.getOp1().accept(this) != e.getOp2().accept(this)){
-            return 1;
-        } else {
-            return 0;
-        }
+
+    public void visit(Num n){
+        this.INT_VALUE = n.getValue();
+    }
+
+    public void visit(PString o){
+        this.STR_VALUE = o.getValue();
     }
     
-    public Integer visit(Less l){
-        if(l.getOp1().accept(this) < l.getOp2().accept(this)){
-            return 1;
-        } else {
-            return 0;
-        }
+    public void visit(Add a){
+        a.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        a.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        this.INT_VALUE = tmp1 + tmp2;
     }
     
-    public Integer visit(Greater g){
-        if(g.getOp1().accept(this) > g.getOp2().accept(this)){
-            return 1;
-        } else {
-            return 0;
-        }
+    public void visit(Sub s){
+        s.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        s.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        this.INT_VALUE = tmp1 - tmp2;
     }
     
-    public Integer visit(LessOrEqual l){
-        if(l.getOp1().accept(this) <= l.getOp2().accept(this)){
-            return 1;
-        } else {
-            return 0;
-        }
+    public void visit(Mul m){
+        m.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        m.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        this.INT_VALUE = tmp1 * tmp2;
     }
     
-    public Integer visit(GreaterOrEqual g){
-        if(g.getOp1().accept(this) >= g.getOp2().accept(this)){
-            return 1;
-        } else {
-            return 0;
-        }
+    public void visit(Div d){
+        d.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        d.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        this.INT_VALUE = tmp1 / tmp2;
+    }
+    
+    public void visit(Negative n){
+        n.getExpression().accept(this);
+
+        this.INT_VALUE = -INT_VALUE;
+    }
+
+    public void visit(Equal e){
+        e.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        e.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 == tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
+    }
+    
+    public void visit(NotEqual e){
+        e.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        e.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 != tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
+    }
+    
+    public void visit(Less l){
+        l.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        l.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 < tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
+    }
+    
+    public void visit(Greater g){
+        g.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        g.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 > tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
+    }
+    
+    public void visit(LessOrEqual l){
+        l.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        l.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 <= tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
+    }
+    
+    public void visit(GreaterOrEqual g){
+        g.getOp1().accept(this);
+        int tmp1 = this.INT_VALUE;
+        g.getOp2().accept(this);
+        int tmp2 = this.INT_VALUE;
+
+        if(tmp1 >= tmp2)
+            this.INT_VALUE = 1;
+        else
+            this.INT_VALUE = 0;
     }
 }

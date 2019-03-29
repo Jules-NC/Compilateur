@@ -1,84 +1,134 @@
 import java.util.ArrayList;
 
-public class PrettyPrintVisitor extends Visitor<String> {
+public class PrettyPrintVisitor extends Visitor {
+    public String STR_VALUE;
 
     
-    public String visit(Print p) {
+    public void visit(Print p) {
        EvaluateVisitor print = new EvaluateVisitor();
-       return "PRINT(" + p.getExpression().accept(print) + ")";
+       print.visit(p.getExpression());
+       STR_VALUE = "PRINT(" + print.INT_VALUE + ")";
     }
     
-    public String visit(SReturn sr){
-        return "[" + sr.getExpression().accept(this) + "]";
+    public void visit(SExpression se){
+
+         se.getExpression().accept(this);
     }
-    
-    public String visit(SBlock sb){
-        String res = "{\n";
-        ArrayList<Statement> statements = sb.getStatements();
+
+    public void visit(Scope sc){
+        String res = "SCOPE{";
+        ArrayList<Statement> statements = sc.getStatements();
 
         for(Statement s : statements){
-            res += s.accept(this) + "\n";
+            s.accept(this);
+            res += this.STR_VALUE+ ", ";
         }
+        res = res.substring(0, res.length()-2);
         res += "}";
-        return res;
-    }
-    
-    public String visit(IfThenElse i){
-        String res = "IF({";
-        res += i.getCondition().accept(this);
-        res +="} " + i.getThenStatement().accept(this) + " | " + i.getElseStatement().accept(this) + ")";
-        return res;
+        this.STR_VALUE = res;
     }
 
-    public String visit(Num n) {
-        return Integer.toString(n.getValue());
+    public void visit(IfThenElse i){
+        i.getCondition().accept(this);
+        String tmp1 = this.STR_VALUE;
+        i.getThenStatement().accept(this);
+        String tmp2 = this.STR_VALUE;
+        i.getElseStatement().accept(this);
+        String tmp3 = this.STR_VALUE;
+        this.STR_VALUE = "IF[(" + tmp1 + ") THEN(" + tmp2 + ") ELSE(" + tmp3 + ")]";
+    }
+
+    public void visit(Num n) {
+        this.STR_VALUE = Integer.toString(n.getValue());
+    }
+
+    public void visit(PString n) {
+        this.STR_VALUE = n.getValue();
+    }
+
+    public void visit(Add a) {
+        a.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        a.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "+" + tmp2 + ")";
     }
     
-    public String visit(Add a) {
-        return "(" + a.getOp1().accept(this) + "+" + a.getOp2().accept(this) + ")";
+    public void visit(Sub s) {
+        s.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        s.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "-" + tmp2 + ")";
     }
     
-    public String visit(Sub s) {
-        return "(" + s.getOp1().accept(this) + "-" + s.getOp2().accept(this) + ")";
+    public void visit(Mul m) {
+        m.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        m.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "*" + tmp2 + ")";
     }
     
-    public String visit(Mul m) {
-        return "(" + m.getOp1().accept(this) + "*" + m.getOp2().accept(this) + ")";
+    public void visit(Div d) {
+        d.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        d.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "/" + tmp2 + ")";
     }
     
-    public String visit(Div d) {
-        return "(" + d.getOp1().accept(this) + "/" + d.getOp2().accept(this) + ")";
+    public void visit(Negative n){
+        n.getExpression().accept(this);
+        String tmp1 = this.STR_VALUE;
+        this.STR_VALUE = "-(" + tmp1 + ")";
     }
     
-    public String visit(Negative n){
-        return "-" + "(" + n.getExpression().accept(this) + ")";
+    public void visit(Equal e) {
+        e.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        e.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "==" + tmp2 + ")";
     }
     
-    public String visit(Positive p){
-        return p.getExpression().accept(this);
+    public void visit(NotEqual e) {
+        e.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        e.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "!=" + tmp2 + ")";
     }
     
-    public String visit(Equal e) {
-        return "(" + e.getOp1().accept(this) + "==" + e.getOp2().accept(this) + ")";
+    public void visit(Less l) {
+        l.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        l.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "<" + tmp2 + ")";
     }
     
-    public String visit(NotEqual e) {
-        return "(" + e.getOp1().accept(this) + "!=" + e.getOp2().accept(this) + ")";
+    public void visit(Greater g) {
+        g.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        g.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + ">" + tmp2 + ")";
     }
     
-    public String visit(Less l) {
-        return "(" + l.getOp1().accept(this) + "<" + l.getOp2().accept(this) + ")";
+    public void visit(LessOrEqual l) {
+        l.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        l.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + "<=" + tmp2 + ")";
     }
     
-    public String visit(Greater g) {
-        return "(" + g.getOp1().accept(this) + ">" + g.getOp2().accept(this) + ")";
-    }
-    
-    public String visit(LessOrEqual l) {
-        return "(" + l.getOp1().accept(this) + "<=" + l.getOp2().accept(this) + ")";
-    }
-    
-    public String visit(GreaterOrEqual g) {
-        return "(" + g.getOp1().accept(this) + "=>" + g.getOp2().accept(this) + ")";
+    public void visit(GreaterOrEqual g) {
+        g.getOp1().accept(this);
+        String tmp1 = this.STR_VALUE;
+        g.getOp2().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "(" + tmp1 + ">=" + tmp2 + ")";
     }
 }

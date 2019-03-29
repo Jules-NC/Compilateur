@@ -1,23 +1,25 @@
-public abstract class Visitor<T>{
-    public T visit(Statement t){
-        return t.accept(this);
+public abstract class Visitor{
+    public void visit(Statement t){
+        t.accept(this);
     }
-    
-    public abstract T visit(Print p);
-    public abstract T visit(SReturn sr);
-    public abstract T visit(SBlock sb);
-    public abstract T visit(IfThenElse i);
-    public abstract T visit(Num n);
-    public abstract T visit(Add a);
-    public abstract T visit(Sub s);
-    public abstract T visit(Mul m);
-    public abstract T visit(Div d);
-    public abstract T visit(Negative n);
-    public abstract T visit(Positive p);
-    public abstract T visit(Equal e);
-    public abstract T visit(NotEqual n);
-    public abstract T visit(Less l);
-    public abstract T visit(Greater g);
-    public abstract T visit(LessOrEqual l);
-    public abstract T visit(GreaterOrEqual g);
+
+    public abstract void visit(Scope s);
+    public abstract void visit(SExpression se);
+
+
+    public abstract void visit(Print p);
+    public abstract void visit(IfThenElse i);
+    public abstract void visit(Num n);
+    public abstract void visit(PString s);
+    public abstract void visit(Add a);
+    public abstract void visit(Sub s);
+    public abstract void visit(Mul m);
+    public abstract void visit(Div d);
+    public abstract void visit(Negative n);
+    public abstract void visit(Equal e);
+    public abstract void visit(NotEqual n);
+    public abstract void visit(Less l);
+    public abstract void visit(Greater g);
+    public abstract void visit(LessOrEqual l);
+    public abstract void visit(GreaterOrEqual g);
 }

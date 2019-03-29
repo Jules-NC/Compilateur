@@ -28,31 +28,30 @@ void mainloop():
 { Statement a; }
 {
     (
-      a=statement4() <EOL> {
+      a=statement5() <EOL> {
         PrettyPrintVisitor ppv = new PrettyPrintVisitor();
         EvaluateVisitor ev = new EvaluateVisitor();
-        System.out.println(ppv.visit(a));
-        System.out.println(ev.visit(a));
+        ppv.visit(a);
+        ev.visit(a);
+
+
+        System.out.println("=====================");
+        System.out.println(ppv.STR_VALUE);
+        System.out.println("---------------------");
+        System.out.println(ev.INT_VALUE);
       }
     )*
     <EOF>
 }
 
 
-Statement statement4():
-{Expression a; Statement b, c;}{
-	b=statement5() {return b;}
-	| "if" "(" a=expression() ")" b=statement4() "else" c=statement4() {return new IfThenElse(a, b, c);}
-}
-
-
 
 Statement statement5():
-{Statement a; Expression b;}{
-	b = expression() ";" {return new SReturn(b);}
+{Statement a, b, c; Expression e; Scope s = new Scope();}{
+	e = expression() ";" {return new SExpression(e);}
+	| "if" "(" e=expression() ")" b=statement5() "else" c=statement5() {return new IfThenElse(e, b, c);}
+    | "{" ( a=statement5() {s.addStatement(a);} )* "}" {return s;}
 }
-
-
 
 
 Expression expression():
