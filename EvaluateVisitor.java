@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 public class EvaluateVisitor extends Visitor<Integer> {
 
+    public Integer visit(Print p) {
+       return p.getExpression().accept(this);
+    }
+    
     public Integer visit(SReturn sr){
         return sr.getExpression().accept(this);
     }

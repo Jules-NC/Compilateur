@@ -1,10 +1,10 @@
-public class Positive extends Expression {
-    Expression expr;
+public class Print extends Expression{
     
-    public Positive(Expression n){
-        this.expr = n;
-    }
+     Expression expr;
     
+     public Print(Expression e){
+        this.expr = e;
+        }
     public Expression getExpression(){
         return this.expr;
     }

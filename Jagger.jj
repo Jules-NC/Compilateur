@@ -53,6 +53,8 @@ Statement statement5():
 }
 
 
+
+
 Expression expression():
 { Expression a,b; }
 {
@@ -105,6 +107,13 @@ Expression expression15():
 }
 
 Expression expression16():
+{ Expression a; }
+{
+    a=expression17() {return a; }
+    | "print" "(" a=expression() ")" { return new Print(a); }
+}
+
+Expression expression17():
 { Token t; Expression e; }
 {
       t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }

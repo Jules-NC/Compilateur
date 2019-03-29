@@ -2,6 +2,12 @@ import java.util.ArrayList;
 
 public class PrettyPrintVisitor extends Visitor<String> {
 
+    
+    public String visit(Print p) {
+       EvaluateVisitor print = new EvaluateVisitor();
+       return "PRINT(" + p.getExpression().accept(print) + ")";
+    }
+    
     public String visit(SReturn sr){
         return "[" + sr.getExpression().accept(this) + "]";
     }
@@ -53,11 +59,11 @@ public class PrettyPrintVisitor extends Visitor<String> {
     }
     
     public String visit(Equal e) {
-        return "(" + e.getOp1().accept(this) + "=" + e.getOp2().accept(this) + ")";
+        return "(" + e.getOp1().accept(this) + "==" + e.getOp2().accept(this) + ")";
     }
     
     public String visit(NotEqual e) {
-        return "(" + e.getOp1().accept(this) + "<>" + e.getOp2().accept(this) + ")";
+        return "(" + e.getOp1().accept(this) + "!=" + e.getOp2().accept(this) + ")";
     }
     
     public String visit(Less l) {

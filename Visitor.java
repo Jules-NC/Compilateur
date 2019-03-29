@@ -2,7 +2,8 @@ public abstract class Visitor<T>{
     public T visit(Statement t){
         return t.accept(this);
     }
-
+    
+    public abstract T visit(Print p);
     public abstract T visit(SReturn sr);
     public abstract T visit(SBlock sb);
     public abstract T visit(IfThenElse i);
