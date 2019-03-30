@@ -16,17 +16,25 @@ public class PrettyPrintVisitor extends Visitor {
        STR_VALUE = "PRINT(" + print.INT_VALUE + ")";
     }
 
-    @Override
+
+    // <TYPE> <ID> ";"
     public void visit(SDecl decl) {
+        String tmp1;
         decl.getVariabe().accept(this);
+        tmp1 = this.STR_VALUE;
+        this.STR_VALUE = "SDECL(" + tmp1 + ")";
+    }
+
+    // <TYPE> <ID> "=" Expr ";"
+    public void visit(SInit init) {
+        init.getVariabe().accept(this);
         String tmp1 = this.STR_VALUE;
-        decl.getExpression().accept(this);
+        init.getExpression().accept(this);
         String tmp2 = this.STR_VALUE;
         this.STR_VALUE = "DECL(" + tmp1 + ", " + tmp2 + ")";
     }
 
     public void visit(SExpression se){
-
          se.getExpression().accept(this);
          String tmp = this.STR_VALUE;
          this.STR_VALUE = "STM(" + tmp + ")";

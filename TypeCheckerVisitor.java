@@ -14,8 +14,14 @@ public class TypeCheckerVisitor extends Visitor{
         o.getExpression().accept(this);
     }
 
-    @Override
+
+    // TYPE ID ";"
     public void visit(SDecl decl) {
+        decl.getVariabe().accept(this);
+    }
+
+    // TYPE ID "=" Expr ";"
+    public void visit(SInit decl) {
         decl.getVariabe().accept(this);
         Type t1 = this.TYPE;
         decl.getExpression().accept(this);

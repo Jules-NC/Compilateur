@@ -1,24 +1,14 @@
-public class SDecl extends Statement{
+public class SDecl {
 
     private Variable v;
-    private Expression e;
 
 
-    public SDecl(Variable v, Expression e) {
-        this.v = v;
-        this.e = e;
+    public SDecl(String name) {
+        this.v = new Variable(name);
     }
 
     public Variable getVariabe() {
         return v;
     }
 
-    public Expression getExpression() {
-        return e;
-    }
-
-    @Override
-    public void accept(Visitor v) {
-        v.visit(this);
-    }
 }
