@@ -4,10 +4,16 @@ public class EvaluateVisitor extends Visitor{
     public int INT_VALUE = 0;
     public String STR_VALUE = "";
 
+    public Type TYPE;
 
+
+    public Type getType(){
+        return this.TYPE;
+    }
     public void visit(SExpression se){
         se.getExpression().accept(this);
     }
+
     public void visit(Scope se){
         ArrayList<Statement> statements = se.getStatements();
         for(Statement s : statements){
@@ -39,12 +45,24 @@ public class EvaluateVisitor extends Visitor{
     }
     
     public void visit(Add a){
-        a.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        a.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        Type type = a.getType();
+        this.TYPE = type;
+        if(type==Type.P_Int){
+            a.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            a.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        this.INT_VALUE = tmp1 + tmp2;
+            this.INT_VALUE = tmp1 + tmp2;
+        }
+        else if(type == Type.P_String){
+            a.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            a.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+
+            this.STR_VALUE = tmp1 + tmp2;
+        }
     }
     
     public void visit(Sub s){

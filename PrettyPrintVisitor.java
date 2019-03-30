@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
+
 public class PrettyPrintVisitor extends Visitor {
+
     public String STR_VALUE;
 
     
@@ -13,6 +15,8 @@ public class PrettyPrintVisitor extends Visitor {
     public void visit(SExpression se){
 
          se.getExpression().accept(this);
+         String tmp = this.STR_VALUE;
+         this.STR_VALUE = "STM(" + tmp + ")";
     }
 
     public void visit(Scope sc){
@@ -39,11 +43,11 @@ public class PrettyPrintVisitor extends Visitor {
     }
 
     public void visit(Num n) {
-        this.STR_VALUE = Integer.toString(n.getValue());
+        this.STR_VALUE = "NUM(" + Integer.toString(n.getValue()) + ")";
     }
 
     public void visit(PString n) {
-        this.STR_VALUE = n.getValue();
+        this.STR_VALUE = "STR(" + n.getValue() + ")";
     }
 
     public void visit(Add a) {
@@ -81,7 +85,7 @@ public class PrettyPrintVisitor extends Visitor {
     public void visit(Negative n){
         n.getExpression().accept(this);
         String tmp1 = this.STR_VALUE;
-        this.STR_VALUE = "-(" + tmp1 + ")";
+        this.STR_VALUE = "NEG(" + tmp1 + ")";
     }
     
     public void visit(Equal e) {

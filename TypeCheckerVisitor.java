@@ -2,13 +2,11 @@ public class TypeCheckerVisitor extends Visitor{
 
     public Type TYPE;
 
-    public void visit(Statement o){
-        o.accept(this);
-    }
 
     public void visit(Scope o){
         this.TYPE = Type.P_Void;
-        o.accept(this);
+        for(Statement s: o.getStatements())
+            s.accept(this);
     }
 
     public void visit(SExpression o){
@@ -16,7 +14,10 @@ public class TypeCheckerVisitor extends Visitor{
         o.getExpression().accept(this);
     }
 
-    public void visit(Print var1){}
+    public void visit(Print var1){
+        this.TYPE = Type.P_Void;
+        var1.getExpression().accept(this);
+    }
 
     public void visit(IfThenElse o){
         this.TYPE = Type.P_Void;

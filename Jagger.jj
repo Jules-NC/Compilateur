@@ -19,6 +19,7 @@ TOKEN:
 {
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
+|   < STRING: "\"" (~["\""])*  "\"">
 |   < EOL: "\n" >                             // End of line.
 }
 
@@ -29,16 +30,23 @@ void mainloop():
 {
     (
       a=statement5() <EOL> {
+        TypeCheckerVisitor tcv = new TypeCheckerVisitor();
         PrettyPrintVisitor ppv = new PrettyPrintVisitor();
         EvaluateVisitor ev = new EvaluateVisitor();
+        tcv.visit(a);
         ppv.visit(a);
         ev.visit(a);
 
-
         System.out.println("=====================");
+        System.out.println(tcv.TYPE);
         System.out.println(ppv.STR_VALUE);
         System.out.println("---------------------");
         System.out.println(ev.INT_VALUE);
+
+        if(ev.getType() == Type.P_Int)
+            System.out.println(ev.INT_VALUE);
+        else
+            System.out.println(ev.STR_VALUE);
       }
     )*
     <EOF>
@@ -82,9 +90,9 @@ Expression expression13():
 {
     a=expression14()
     (
-      "+" b=expression13() { a=new Add(a, b); }
-    | "-" b=expression13() { a=new Sub(a, b); }
-    )? { return a; }
+      ("+" b=expression14() { a=new Add(a, b); })
+    | ("-" b=expression14() { a=new Sub(a, b); })
+    )* { return a; }
 }
 
 
@@ -93,9 +101,9 @@ Expression expression14():
 {
     a=expression15()
     (
-      "*" b=expression14() { a=new Mul(a, b); }
-    | "/" b=expression14() { a=new Div(a, b); }
-    )? { return a; }
+      ("*" b=expression15() { a=new Mul(a, b); })
+    | ("/" b=expression15() { a=new Div(a, b); })
+    )* { return a; }
 }
 
 Expression expression15():
@@ -115,6 +123,10 @@ Expression expression16():
 Expression expression17():
 { Token t; Expression e; }
 {
-      t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
+    t=<STRING> {
+        String str = t.toString();
+        return new PString(str.substring(1, str.length()-1));
+    }
+    | t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
     | "(" e=expression() ")" { return e;}
 }
