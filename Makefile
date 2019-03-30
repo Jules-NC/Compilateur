@@ -3,3 +3,7 @@ All:
 	javac *.java
 	java Jagger
 
+clean:
+	rm *.class
+	rm *.ctxt
+

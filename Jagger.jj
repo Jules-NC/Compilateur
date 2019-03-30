@@ -12,7 +12,16 @@ public class Jagger {
 PARSER_END(Jagger)
 
 // Characters to ignore.
-SKIP: { " " | "\r" | "\t" }
+SKIP: { " " | "\r" | "\t"
+        | < "//" (~["\r", "\n"])* >
+        | < "/*" > : ML_COMMENT_STATE
+        }
+
+<ML_COMMENT_STATE> SKIP :
+{
+  < "*/" > : DEFAULT
+| < ~[] >
+}
 
 // Token specifications.
 TOKEN:
@@ -20,7 +29,25 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < STRING: "\"" (~["\""])*  "\"">
+
+|   < IF: "if">
+|   < ELSE: "else">
+|   < PRINT: "print">
+
+|   < BOPEN: "(">
+|   < BEND: ")">
+
+|   < COPEN: "{">
+|   < CEND: "}">
+
+|   <ENDL: ";">
+|   <EQ: "=">
 |   < EOL: "\n" >                             // End of line.
+}
+
+TOKEN:
+{
+   < ID: (["a"-"z"]|["A"-"Z"])+ >
 }
 
 // Main lopp: read expressions on a line until end of file.
@@ -47,7 +74,12 @@ void mainloop():
             System.out.println(ev.INT_VALUE);
         else
             System.out.println(ev.STR_VALUE);
+
+        ppv.visit(a);
+        System.out.println(ppv.STR_VALUE);
+
       }
+
     )*
     <EOF>
 }
@@ -55,10 +87,11 @@ void mainloop():
 
 
 Statement statement5():
-{Statement a, b, c; Expression e; Scope s = new Scope();}{
-	e = expression() ";" {return new SExpression(e);}
-	| "if" "(" e=expression() ")" b=statement5() "else" c=statement5() {return new IfThenElse(e, b, c);}
-    | "{" ( a=statement5() {s.addStatement(a);} )* "}" {return s;}
+{Statement a, b, c; Expression e; Scope s = new Scope(); Token t;}{
+	e = expression() <ENDL> {return new SExpression(e);}
+	| <IF> <BOPEN> e=expression() <BEND> b=statement5() <ELSE> c=statement5() {return new IfThenElse(e, b, c);}
+    | <COPEN> ( a=statement5() {s.addStatement(a);} )* <CEND> {return s;}
+    | t=<ID> <EQ> e=expression() <ENDL> {return new SDecl(new Variable(t.toString()), e);}
 }
 
 
@@ -128,5 +161,6 @@ Expression expression17():
         return new PString(str.substring(1, str.length()-1));
     }
     | t=<NUMBER> { return new Num(Integer.parseInt(t.toString())); }
+    //| t=<ID> {return new Variable(t.toString()); }
     | "(" e=expression() ")" { return e;}
 }

@@ -5,13 +5,26 @@ public class PrettyPrintVisitor extends Visitor {
 
     public String STR_VALUE;
 
-    
+
+    public void visit(Variable v){
+        this.STR_VALUE = "VAR(" + v.getName() + ":" + v.getValeur() + ")";
+    }
+
     public void visit(Print p) {
        EvaluateVisitor print = new EvaluateVisitor();
        print.visit(p.getExpression());
        STR_VALUE = "PRINT(" + print.INT_VALUE + ")";
     }
-    
+
+    @Override
+    public void visit(SDecl decl) {
+        decl.getVariabe().accept(this);
+        String tmp1 = this.STR_VALUE;
+        decl.getExpression().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "DECL(" + tmp1 + ", " + tmp2 + ")";
+    }
+
     public void visit(SExpression se){
 
          se.getExpression().accept(this);

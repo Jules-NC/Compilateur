@@ -5,8 +5,9 @@ public abstract class Visitor{
 
     public abstract void visit(Scope s);
     public abstract void visit(SExpression se);
+    public abstract void visit(SDecl decl);
 
-
+    public abstract void visit(Variable v);
     public abstract void visit(Print p);
     public abstract void visit(IfThenElse i);
     public abstract void visit(Num n);

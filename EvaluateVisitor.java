@@ -10,6 +10,13 @@ public class EvaluateVisitor extends Visitor{
     public Type getType(){
         return this.TYPE;
     }
+
+    @Override
+    public void visit(SDecl decl) {
+        decl.getExpression().accept(this);
+        decl.getVariabe().setValeur(this.INT_VALUE);
+    }
+
     public void visit(SExpression se){
         se.getExpression().accept(this);
     }
@@ -19,6 +26,10 @@ public class EvaluateVisitor extends Visitor{
         for(Statement s : statements){
             s.accept(this);
         }
+    }
+
+    public void visit(Variable v){
+        this.INT_VALUE = v.getValeur();
     }
 
     public void visit(Print p) {
