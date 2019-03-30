@@ -30,10 +30,12 @@ public class EvaluateVisitor extends Visitor{
         }
     }
     public void visit(Scope se){
+        this.scopeVars.push(new HashMap<>());
         ArrayList<Statement> statements = se.getStatements();
         for(Statement s : statements){
             s.accept(this);
         }
+        this.scopeVars.pop();
     }
     public void visit(SExpression se){
         se.getExpression().accept(this);

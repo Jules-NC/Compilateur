@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bb19161c-9cd9-4c59-bd9d-65dce1f0810d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SInit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EvaluateVisitor.java" afterPath="$PROJECT_DIR$/EvaluateVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Jagger.jj" afterPath="$PROJECT_DIR$/Jagger.jj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PrettyPrintVisitor.java" afterPath="$PROJECT_DIR$/PrettyPrintVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SDecl.java" afterPath="$PROJECT_DIR$/SDecl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test.java" afterPath="$PROJECT_DIR$/Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TypeCheckerVisitor.java" afterPath="$PROJECT_DIR$/TypeCheckerVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Visitor.java" afterPath="$PROJECT_DIR$/Visitor.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,12 +46,11 @@
       <file leaf-file-name="EvaluateVisitor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EvaluateVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="207" column="34" lean-forward="false" selection-start-line="207" selection-start-column="34" selection-end-line="207" selection-end-column="34" />
+            <state relative-caret-position="442">
+              <caret line="37" column="29" lean-forward="false" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#visit#0;class#EvaluateVisitor#0" expanded="false" />
-                <element signature="method#visit#1;class#EvaluateVisitor#0" expanded="false" />
                 <element signature="method#visit#4;class#EvaluateVisitor#0" expanded="false" />
                 <element signature="method#visit#5;class#EvaluateVisitor#0" expanded="false" />
                 <element signature="method#visit#6;class#EvaluateVisitor#0" expanded="false" />
@@ -888,12 +879,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EvaluateVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="207" column="34" lean-forward="false" selection-start-line="207" selection-start-column="34" selection-end-line="207" selection-end-column="34" />
+        <state relative-caret-position="442">
+          <caret line="37" column="29" lean-forward="false" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#visit#0;class#EvaluateVisitor#0" expanded="false" />
-            <element signature="method#visit#1;class#EvaluateVisitor#0" expanded="false" />
             <element signature="method#visit#4;class#EvaluateVisitor#0" expanded="false" />
             <element signature="method#visit#5;class#EvaluateVisitor#0" expanded="false" />
             <element signature="method#visit#6;class#EvaluateVisitor#0" expanded="false" />
