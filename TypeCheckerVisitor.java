@@ -2,13 +2,11 @@ public class TypeCheckerVisitor extends Visitor{
 
     public Type TYPE;
 
-    public void visit(Statement o){
-        o.accept(this);
-    }
 
     public void visit(Scope o){
         this.TYPE = Type.P_Void;
-        o.accept(this);
+        for(Statement s: o.getStatements())
+            s.accept(this);
     }
 
     public void visit(SExpression o){
@@ -16,7 +14,36 @@ public class TypeCheckerVisitor extends Visitor{
         o.getExpression().accept(this);
     }
 
-    public void visit(Print var1){}
+
+    // TYPE ID ";"
+    public void visit(SDecl decl) {
+        decl.getVariabe().accept(this);
+    }
+
+    // TYPE ID "=" Expr ";"
+    public void visit(SInit decl) {
+        decl.getVariabe().accept(this);
+        Type t1 = this.TYPE;
+        decl.getExpression().accept(this);
+        Type t2 = this.TYPE;
+
+        if(t1==t2){
+
+        }
+        else{
+            throw new RuntimeException("Invalid Type");
+        }
+
+    }
+
+    public void visit(Variable v){
+        this.TYPE = Type.P_Int;
+    }
+
+    public void visit(Print var1){
+        this.TYPE = Type.P_Void;
+        var1.getExpression().accept(this);
+    }
 
     public void visit(IfThenElse o){
         this.TYPE = Type.P_Void;

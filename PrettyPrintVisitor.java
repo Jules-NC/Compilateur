@@ -1,18 +1,43 @@
 import java.util.ArrayList;
 
+
 public class PrettyPrintVisitor extends Visitor {
+
     public String STR_VALUE;
 
-    
+
+    public void visit(Variable v){
+        this.STR_VALUE = "VAR(" + v.getName() + ":" + v.getValeur() + ")";
+    }
+
     public void visit(Print p) {
        EvaluateVisitor print = new EvaluateVisitor();
        print.visit(p.getExpression());
        STR_VALUE = "PRINT(" + print.INT_VALUE + ")";
     }
-    
-    public void visit(SExpression se){
 
+
+    // <TYPE> <ID> ";"
+    public void visit(SDecl decl) {
+        String tmp1;
+        decl.getVariabe().accept(this);
+        tmp1 = this.STR_VALUE;
+        this.STR_VALUE = "SDECL(" + tmp1 + ")";
+    }
+
+    // <TYPE> <ID> "=" Expr ";"
+    public void visit(SInit init) {
+        init.getVariabe().accept(this);
+        String tmp1 = this.STR_VALUE;
+        init.getExpression().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "DECL(" + tmp1 + ", " + tmp2 + ")";
+    }
+
+    public void visit(SExpression se){
          se.getExpression().accept(this);
+         String tmp = this.STR_VALUE;
+         this.STR_VALUE = "STM(" + tmp + ")";
     }
 
     public void visit(Scope sc){
@@ -39,11 +64,11 @@ public class PrettyPrintVisitor extends Visitor {
     }
 
     public void visit(Num n) {
-        this.STR_VALUE = Integer.toString(n.getValue());
+        this.STR_VALUE = "NUM(" + Integer.toString(n.getValue()) + ")";
     }
 
     public void visit(PString n) {
-        this.STR_VALUE = n.getValue();
+        this.STR_VALUE = "STR(" + n.getValue() + ")";
     }
 
     public void visit(Add a) {
@@ -81,7 +106,7 @@ public class PrettyPrintVisitor extends Visitor {
     public void visit(Negative n){
         n.getExpression().accept(this);
         String tmp1 = this.STR_VALUE;
-        this.STR_VALUE = "-(" + tmp1 + ")";
+        this.STR_VALUE = "NEG(" + tmp1 + ")";
     }
     
     public void visit(Equal e) {
