@@ -1,14 +1,18 @@
-public class SDecl {
+public class SDecl extends Statement {
 
-    private Variable v;
+    private ID v;
 
 
     public SDecl(String name) {
-        this.v = new Variable(name);
+        this.v = new ID(name);
     }
 
-    public Variable getVariabe() {
+    public ID getVariabe() {
         return v;
+    }
+    
+    public void accept(Visitor v){
+        v.visit(this);
     }
 
 }

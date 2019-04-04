@@ -8,7 +8,7 @@ public abstract class Visitor{
     public abstract void visit(SExpression se);
     public abstract void visit(SInit init);
     public abstract void visit(SDecl decl);
-
+    public abstract void visit(SAssign assign);
 
     public abstract void visit(Equal e);
     public abstract void visit(NotEqual n);
@@ -28,6 +28,7 @@ public abstract class Visitor{
 
     public abstract void visit(Print p);
     public abstract void visit(Variable v);
+    public abstract void visit(ID i);
     public abstract void visit(PString s);
     public abstract void visit(Num n);
 

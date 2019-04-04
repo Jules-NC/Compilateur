@@ -1,55 +1,118 @@
+import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.ArrayList;
+
 public class TypeCheckerVisitor extends Visitor{
 
     public Type TYPE;
-
+    public LinkedList<HashMap<String, Variable>> scopeVars;
+    
+    
+    public TypeCheckerVisitor (){
+        this.scopeVars = new LinkedList<>();
+        this.scopeVars.push(new HashMap<String, Variable>());
+    }
 
     public void visit(Scope o){
-        this.TYPE = Type.P_Void;
+        this.scopeVars.push(new HashMap<>());
+        ArrayList<Statement> statements = o.getStatements();
+      
         for(Statement s: o.getStatements())
             s.accept(this);
+           
+        this.scopeVars.pop();   
+        this.TYPE = Type.P_Void;
     }
 
     public void visit(SExpression o){
-        this.TYPE = Type.P_Void;
         o.getExpression().accept(this);
+        this.TYPE = Type.P_Void;
     }
-
 
     // TYPE ID ";"
     public void visit(SDecl decl) {
         decl.getVariabe().accept(this);
+        String str = decl.getVariabe().getName();
+        if(this.scopeVars.peek().containsKey(str)){
+            throw new RuntimeException("Double declaration");
+        }
+        else{
+            Variable v = new Variable(str);
+            v.setValeur(decl.getVariabe().getValeur());
+            this.scopeVars.peek().put(str, v);
+        }
     }
 
     // TYPE ID "=" Expr ";"
-    public void visit(SInit decl) {
-        decl.getVariabe().accept(this);
+    public void visit(SInit i) {
+        i.getVariabe().accept(this);
         Type t1 = this.TYPE;
-        decl.getExpression().accept(this);
+        i.getExpression().accept(this);
+        Type t2 = this.TYPE;
+        String str = i.getVariabe().getName();
+        
+        if(this.scopeVars.peek().containsKey(str)){
+            throw new RuntimeException("Double declaration");
+        }
+        
+        Variable v = new Variable(str);
+        
+        this.scopeVars.peek().put(str, v);
+        
+        if(t1==t2){
+            this.TYPE = Type.P_Void;
+        }
+        else{
+            throw new RuntimeException("Invalid Type");
+        }
+        
+    }
+
+    public void visit(SAssign a){
+        a.getVariable().accept(this);
+        Type t1 = this.TYPE;
+        a.getExpression().accept(this);
         Type t2 = this.TYPE;
 
         if(t1==t2){
-
+            this.TYPE = Type.P_Void;
         }
         else{
             throw new RuntimeException("Invalid Type");
         }
 
     }
-
+    
     public void visit(Variable v){
+        String str = v.getName();
+        boolean flag=false;
+        for(HashMap<String, Variable> hm : this.scopeVars){
+            if(hm.containsKey(str)){
+                flag=true;
+                break;
+            }
+        }
+        if(!flag){
+            throw new RuntimeException("Variable not declared");
+        }
+        this.TYPE = Type.P_Int;
+        
+    }
+    
+    public void visit(ID i){
         this.TYPE = Type.P_Int;
     }
 
     public void visit(Print var1){
-        this.TYPE = Type.P_Void;
         var1.getExpression().accept(this);
+        this.TYPE = Type.P_Void;
     }
 
     public void visit(IfThenElse o){
-        this.TYPE = Type.P_Void;
         o.getCondition().accept(this);
         o.getThenStatement().accept(this);
         o.getElseStatement().accept(this);
+        this.TYPE = Type.P_Void;
     }
 
     public void visit(PString o){
@@ -57,7 +120,7 @@ public class TypeCheckerVisitor extends Visitor{
     }
 
     public void visit(Num n){
-        TYPE = Type.P_Int;
+        this.TYPE = Type.P_Int;
     }
 
     public void visit(Add a){
@@ -87,8 +150,7 @@ public class TypeCheckerVisitor extends Visitor{
             throw new RuntimeException("Incorrect Types");
         }
     }
-    
-    
+
     public void visit(Mul m){
         m.getOp1().accept(this);
         Type t1 = this.TYPE;
@@ -102,6 +164,7 @@ public class TypeCheckerVisitor extends Visitor{
             throw new RuntimeException("Incorrect Types");
         }
     }
+
     public void visit(Div d){
         d.getOp1().accept(this);
         Type t1 = this.TYPE;

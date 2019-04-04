@@ -1,23 +1,23 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Stack;
-
 
 public class EvaluateVisitor extends Visitor{
     public int INT_VALUE;
     public String STR_VALUE;
     public Type TYPE;
-    public Stack<HashMap<String, Variable>> scopeVars;
+    public LinkedList<HashMap<String, Variable>> scopeVars;
 
     public EvaluateVisitor(){
-        this.scopeVars = new Stack<>();
+        this.STR_VALUE = "";
+        this.scopeVars = new LinkedList<>();
         this.scopeVars.push(new HashMap<>());   // global variables
     }
 
     public Type getType(){
         return this.TYPE;
     }
-
 
     public void visit(IfThenElse i){
         i.getCondition().accept(this);
@@ -29,32 +29,62 @@ public class EvaluateVisitor extends Visitor{
             i.getElseStatement().accept(this);
         }
     }
-    public void visit(Scope se){
+
+    public void visit(Scope se){ 
+        this.STR_VALUE = "";
+        System.out.print("S(");
         this.scopeVars.push(new HashMap<>());
         ArrayList<Statement> statements = se.getStatements();
+        String res = "";
         for(Statement s : statements){
             s.accept(this);
+            res += this.STR_VALUE + "\n";
         }
         this.scopeVars.pop();
+        this.STR_VALUE = res;
+        System.out.print(this.STR_VALUE + ")");
     }
+
     public void visit(SExpression se){
         se.getExpression().accept(this);
     }
+
     public void visit(SInit init){
         String varName = init.getVariabe().getName();
         init.getExpression().accept(this);
         int tmp1 =this.INT_VALUE;
         init.getVariabe().accept(this);
-
+        
+        Variable v = new Variable(varName);
+        v.setValeur(tmp1);
+        scopeVars.peek().put(varName, v);
         init.getVariabe().setValeur(tmp1);
-        scopeVars.peek().put(varName, init.getVariabe());
-
+        System.out.println("SI(" + this.STR_VALUE + ")");
     }
+
     public void visit(SDecl decl) {
         String varName = decl.getVariabe().getName();
-        this.scopeVars.peek().put(varName, decl.getVariabe());
+        Variable v = new Variable(varName);
+        v.setValeur(this.scopeVars.peek().get(varName).getValeur());
+        this.scopeVars.peek().put(varName, v);
     }
-
+    
+    public void visit(SAssign a) {
+        String str = a.getVariable().getName();
+        a.getVariable().accept(this);
+        int tmp1 = this.INT_VALUE;
+        a.getExpression().accept(this);
+        
+        for(HashMap<String, Variable> hm : this.scopeVars){
+            if(hm.containsKey(str)){
+                Variable v = hm.get(str);
+                v.setValeur(this.INT_VALUE);
+                System.out.println("SALUT ! " + this.INT_VALUE);
+                break;
+            }
+        }
+        
+    }
 
     public void visit(Equal e){
         e.getOp1().accept(this);
@@ -67,7 +97,7 @@ public class EvaluateVisitor extends Visitor{
         else
             this.INT_VALUE = 0;
     }
-    
+
     public void visit(NotEqual e){
         e.getOp1().accept(this);
         int tmp1 = this.INT_VALUE;
@@ -80,7 +110,6 @@ public class EvaluateVisitor extends Visitor{
             this.INT_VALUE = 0;
     }
 
-
     public void visit(Less l){
         l.getOp1().accept(this);
         int tmp1 = this.INT_VALUE;
@@ -92,7 +121,7 @@ public class EvaluateVisitor extends Visitor{
         else
             this.INT_VALUE = 0;
     }
-    
+
     public void visit(Greater g){
         g.getOp1().accept(this);
         int tmp1 = this.INT_VALUE;
@@ -104,7 +133,7 @@ public class EvaluateVisitor extends Visitor{
         else
             this.INT_VALUE = 0;
     }
-    
+
     public void visit(LessOrEqual l){
         l.getOp1().accept(this);
         int tmp1 = this.INT_VALUE;
@@ -116,7 +145,7 @@ public class EvaluateVisitor extends Visitor{
         else
             this.INT_VALUE = 0;
     }
-    
+
     public void visit(GreaterOrEqual g){
         g.getOp1().accept(this);
         int tmp1 = this.INT_VALUE;
@@ -128,7 +157,6 @@ public class EvaluateVisitor extends Visitor{
         else
             this.INT_VALUE = 0;
     }
-
 
     public void visit(Mul m){
         m.getOp1().accept(this);
@@ -147,7 +175,6 @@ public class EvaluateVisitor extends Visitor{
 
         this.INT_VALUE = tmp1 / tmp2;
     }
-
 
     public void visit(Add a){
         Type type = a.getType();
@@ -179,35 +206,40 @@ public class EvaluateVisitor extends Visitor{
         this.INT_VALUE = tmp1 - tmp2;
     }
 
-
     public void visit(Negative n){
         n.getExpression().accept(this);
 
         this.INT_VALUE = -INT_VALUE;
     }
 
-
     public void visit(Print p) {
         p.getExpression().accept(this);
+        this.STR_VALUE = "" + this.INT_VALUE;
+        System.out.println("P(" + this.STR_VALUE + ")");
     }
 
-
     // TERMINAUX
-
     public void visit(Variable v){
-        HashMap<String, Variable> scope = this.scopeVars.peek();
-        Variable xd = new Variable("lol");
-        /*xd.setValeur(10);
-        scope.put("lol", xd);*/
         String varName = v.getName();
-
-        if(scope.containsKey(varName)){
-            this.INT_VALUE = scope.get(varName).getValeur();
-            v.setValeur(this.INT_VALUE);
+        boolean flag = false;
+        for(HashMap<String, Variable> hm : this.scopeVars){
+           if(hm.containsKey(varName)){
+               this.INT_VALUE = hm.get(varName).getValeur();
+               v.setValeur(this.INT_VALUE);
+               flag = true;
+               break;
+           }
         }
-        else{
-            scope.put(varName, v);
-            this.INT_VALUE = v.getValeur();
+    }
+    
+    public void visit(ID id){
+        String varName = id.getName();
+        for(HashMap<String, Variable> hm : this.scopeVars){
+           if(hm.containsKey(varName)){
+               this.INT_VALUE = hm.get(varName).getValeur();
+               id.setValeur(this.INT_VALUE);
+               break;
+           }
         }
     }
 

@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 public abstract class Test{
-    public static Statement test(){
+    public static void test(){}
+        /*
         Variable v = new Variable("lol");
         Expression n = new Num(3);
         Statement si = new SInit(v, n);
@@ -18,7 +19,31 @@ public abstract class Test{
         ev.visit(s);
         ppv.visit(s);
         
-        System.out.println(ppv.STR_VALUE);
+        //System.out.println(ppv.STR_VALUE);
         return s;
    }
+   
+   public static void lol(){
+       /*
+       Variable v1 = new Variable("lol");
+       Expression n1 = new Num(2);
+       Statement e1 = new SInit(v1, n1);
+       
+       Variable v2 = new Variable("lol");
+       Statement p1 = new Print(v2);
+       
+       Expression n2 = new Num(3);
+       Statement se1 = new SExpression(n2);
+       Scope s1 = new Scope();
+       s1.addStatement(se1);
+       
+       Scope s2 = new Scope();
+       s2.addStatement(e1);
+       s2.addStatement(p1);
+       s2.addStatement(s1);
+       
+       EvaluateVisitor ev = new EvaluateVisitor();
+       ev.visit(s2);
+       //System.out.println(ev.STR_VALUE);*/
+    
 } 

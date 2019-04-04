@@ -1,15 +1,15 @@
 public class SInit extends Statement{
 
-    private Variable v;
+    private ID v;
     private Expression e;
 
 
-    public SInit(Variable v, Expression e) {
+    public SInit(ID v, Expression e) {
         this.v = v;
         this.e = e;
     }
 
-    public Variable getVariabe() {
+    public ID getVariabe() {
         return v;
     }
 

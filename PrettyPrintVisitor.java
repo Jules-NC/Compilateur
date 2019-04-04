@@ -31,7 +31,15 @@ public class PrettyPrintVisitor extends Visitor {
         String tmp1 = this.STR_VALUE;
         init.getExpression().accept(this);
         String tmp2 = this.STR_VALUE;
-        this.STR_VALUE = "DECL(" + tmp1 + ", " + tmp2 + ")";
+        this.STR_VALUE = "SINIT(" + tmp1 + ", " + tmp2 + ")";
+    }
+    
+    public void visit(SAssign a) {
+        a.getVariable().accept(this);
+        String tmp1 = this.STR_VALUE;
+        a.getExpression().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "SASSIGN(" + tmp1 + ", " + tmp2 + ")" ;
     }
 
     public void visit(SExpression se){
@@ -48,7 +56,7 @@ public class PrettyPrintVisitor extends Visitor {
             s.accept(this);
             res += this.STR_VALUE+ ", ";
         }
-        res = res.substring(0, res.length()-2);
+        
         res += "}";
         this.STR_VALUE = res;
     }
@@ -101,6 +109,11 @@ public class PrettyPrintVisitor extends Visitor {
         d.getOp2().accept(this);
         String tmp2 = this.STR_VALUE;
         this.STR_VALUE = "(" + tmp1 + "/" + tmp2 + ")";
+    }
+    
+    public void visit(ID id){
+        this.STR_VALUE = "ID(" + id.getName() + ":" + id.getValeur() + ")";
+        
     }
     
     public void visit(Negative n){

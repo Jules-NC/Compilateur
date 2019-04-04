@@ -1,5 +1,5 @@
 // Options for JavaCC.
-options { LOOKAHEAD=2; FORCE_LA_CHECK=true; }
+options { LOOKAHEAD=3; FORCE_LA_CHECK=true; }
 
 // Fonction principale
 PARSER_BEGIN(Jagger)
@@ -42,7 +42,7 @@ TOKEN:
 |   < EOL: "\n" >                             // End of line.
 |   < STRING: "\"" (~["\""])*  "\"">
 
-|    < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
+|   < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >
 |   < ID: (["a"-"z"]|["A"-"Z"])+ >
 }
@@ -63,18 +63,15 @@ void mainloop():
         ev.visit(a);
 
         System.out.println("=====================");
-        System.out.println(tcv.TYPE);
-        System.out.println(ppv.STR_VALUE);
+        System.out.println("Type: " + tcv.TYPE);
+        System.out.println("Execution du programme: ");
         System.out.println("---------------------");
-        System.out.println(ev.INT_VALUE);
 
-        if(ev.getType() == Type.P_Int)
-            System.out.println(ev.INT_VALUE);
-        else
-            System.out.println(ev.STR_VALUE);
+        System.out.println(ev.STR_VALUE);
 
+        System.out.println("---------------------");
         ppv.visit(a);
-        System.out.println(ppv.STR_VALUE);
+        System.out.println("Str: " + ppv.STR_VALUE);
 
       }
 
@@ -88,9 +85,11 @@ Statement statement5():
 {Statement a, b, c; Expression e; Scope s = new Scope(); Token t;}{
 	e = expression() <ENDL> {return new SExpression(e);}
 	| <IF> <BOPEN> e=expression() <BEND> b=statement5() <ELSE> c=statement5() {return new IfThenElse(e, b, c);}
-    | <COPEN> ( a=statement5() {s.addStatement(a);} )* <CEND> {return s;}
-    | <TYPE> t=<ID> <EQ> e=expression() <ENDL> {return new SInit(new Variable(t.toString()), e);}
-    //| t=<ID> <ENDL> {return new SInit(new Variable(t.toString()), e);}
+  | <COPEN> ( a=statement5() {s.addStatement(a);} )* <CEND> {return s;}
+  | <TYPE> t=<ID> <EQ> e=expression() <ENDL> {return new SInit(new ID(t.toString()), e);}
+  | t=<ID> <EQ> e=expression() <ENDL> {return new SAssign(new Variable(t.toString()), e);}
+  | <TYPE> t=<ID> <ENDL> {return new SDecl(t.toString());}
+  | <PRINT> <BOPEN> e=expression() <BEND> <ENDL> {return new Print(e);}
 }
 
 
@@ -104,6 +103,7 @@ Expression expression():
     
     )? { return a; }
 }
+
 
 Expression expression12():
 { Expression a,b; }
@@ -141,16 +141,10 @@ Expression expression14():
 Expression expression15():
 { Expression a; }
 {
-    a=expression16() {return a; }
-    | "-" a=expression16() { return new Negative(a); }
+    a=expression17() {return a; }
+    | "-" a=expression17() { return new Negative(a); }
 }
 
-Expression expression16():
-{ Expression a; }
-{
-    a=expression17() {return a; }
-    | "print" "(" a=expression() ")" { return new Print(a); }
-}
 
 Expression expression17():
 { Token t; Expression e; }
