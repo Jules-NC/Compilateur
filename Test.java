@@ -1,7 +1,21 @@
 import java.util.ArrayList;
 
 public abstract class Test{
-    public static void test(){}
+    public static void test(){
+        Expression n1 = new PString("cozcvfddfou");
+        Expression n2 = new PString("coucou");
+        Expression equal = new Less(n1,n2);
+        
+        EvaluateVisitor ev = new EvaluateVisitor();
+        PrettyPrintVisitor ppv = new PrettyPrintVisitor();
+        
+        ev.visit(equal);
+        ppv.visit(equal);
+        
+        System.out.println(ppv.STR_VALUE);
+        System.out.println(ev.INT_VALUE);
+        
+    }
         /*
         Variable v = new Variable("lol");
         Expression n = new Num(3);

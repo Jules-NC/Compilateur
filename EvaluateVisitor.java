@@ -99,75 +99,165 @@ public class EvaluateVisitor extends Visitor{
     }
 
     public void visit(Equal e){
-        e.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        e.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        if(e.getOp1().getType() == Type.P_Int){
+            e.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            e.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 == tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 == tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (e.getOp1().getType() == Type.P_String){
+            e.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            e.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare == 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
-    public void visit(NotEqual e){
-        e.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        e.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+    public void visit(NotEqual e){            
+        if(e.getOp1().getType() == Type.P_Int){
+            e.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            e.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 != tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 != tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (e.getOp1().getType() == Type.P_String){
+            e.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            e.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare != 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
     public void visit(Less l){
-        l.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        l.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        if(l.getOp1().getType() == Type.P_Int){
+            l.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            l.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 < tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 < tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (l.getOp1().getType() == Type.P_String){
+            l.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            l.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare < 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
     public void visit(Greater g){
-        g.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        g.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        if(g.getOp1().getType() == Type.P_Int){
+            g.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            g.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 > tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 > tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (g.getOp1().getType() == Type.P_String){
+            g.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            g.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare > 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
     public void visit(LessOrEqual l){
-        l.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        l.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        if(l.getOp1().getType() == Type.P_Int){
+            l.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            l.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 <= tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 <= tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (l.getOp1().getType() == Type.P_String){
+            l.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            l.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare <= 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
     public void visit(GreaterOrEqual g){
-        g.getOp1().accept(this);
-        int tmp1 = this.INT_VALUE;
-        g.getOp2().accept(this);
-        int tmp2 = this.INT_VALUE;
+        if(g.getOp1().getType() == Type.P_Int){
+            g.getOp1().accept(this);
+            int tmp1 = this.INT_VALUE;
+            g.getOp2().accept(this);
+            int tmp2 = this.INT_VALUE;
 
-        if(tmp1 >= tmp2)
-            this.INT_VALUE = 1;
-        else
-            this.INT_VALUE = 0;
+            if(tmp1 >= tmp2)
+                this.INT_VALUE = 1;
+            else
+                this.INT_VALUE = 0;
+        }  
+        else if (g.getOp1().getType() == Type.P_String){
+            g.getOp1().accept(this);
+            String tmp1 = this.STR_VALUE;
+            g.getOp2().accept(this);
+            String tmp2 = this.STR_VALUE;
+            
+            int compare = tmp1.compareTo(tmp2);
+            if(compare >= 0) 
+                this.INT_VALUE = 1;
+            else 
+                this.INT_VALUE = 0;
+                
+        }
     }
 
     public void visit(Mul m){
