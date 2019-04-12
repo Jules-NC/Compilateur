@@ -30,19 +30,33 @@ public class EvaluateVisitor extends Visitor{
         }
     }
 
+    public void visit(WhileDo w){
+        w.getCondition().accept(this);
+        int tmp1 = this.INT_VALUE;
+        String res = "";
+
+        while(tmp1 == 1){
+            w.getDoStatement().accept(this);
+            res += this.STR_VALUE + "\n";
+            w.getCondition().accept(this);
+            tmp1 = this.INT_VALUE;
+        }
+        //res = res.substring(0, res.length()-1);
+        this.STR_VALUE = res;
+    }
+
     public void visit(Scope se){ 
         this.STR_VALUE = "";
-        System.out.print("S(");
         this.scopeVars.push(new HashMap<>());
         ArrayList<Statement> statements = se.getStatements();
         String res = "";
         for(Statement s : statements){
             s.accept(this);
-            res += this.STR_VALUE + "\n";
+            res += this.STR_VALUE;
         }
+        //res = res.substring(0, res.length()-1);
         this.scopeVars.pop();
         this.STR_VALUE = res;
-        System.out.print(this.STR_VALUE + ")");
     }
 
     public void visit(SExpression se){
@@ -54,12 +68,11 @@ public class EvaluateVisitor extends Visitor{
         init.getExpression().accept(this);
         int tmp1 =this.INT_VALUE;
         init.getVariabe().accept(this);
-        
+
         Variable v = new Variable(varName);
         v.setValeur(tmp1);
         scopeVars.peek().put(varName, v);
         init.getVariabe().setValeur(tmp1);
-        System.out.println("SI(" + this.STR_VALUE + ")");
     }
 
     public void visit(SDecl decl) {
@@ -68,22 +81,21 @@ public class EvaluateVisitor extends Visitor{
         v.setValeur(this.scopeVars.peek().get(varName).getValeur());
         this.scopeVars.peek().put(varName, v);
     }
-    
+
     public void visit(SAssign a) {
         String str = a.getVariable().getName();
         a.getVariable().accept(this);
         int tmp1 = this.INT_VALUE;
         a.getExpression().accept(this);
-        
+
         for(HashMap<String, Variable> hm : this.scopeVars){
             if(hm.containsKey(str)){
                 Variable v = hm.get(str);
                 v.setValeur(this.INT_VALUE);
-                System.out.println("SALUT ! " + this.INT_VALUE);
                 break;
             }
         }
-        
+        this.STR_VALUE = "";
     }
 
     public void visit(Equal e){
@@ -214,8 +226,10 @@ public class EvaluateVisitor extends Visitor{
 
     public void visit(Print p) {
         p.getExpression().accept(this);
-        this.STR_VALUE = "" + this.INT_VALUE;
-        System.out.println("P(" + this.STR_VALUE + ")");
+        if(this.TYPE == Type.P_Int)
+            this.STR_VALUE = "" + this.INT_VALUE + "\n";
+        else
+            this.STR_VALUE = "" + this.STR_VALUE + "\n";
     }
 
     // TERMINAUX
@@ -223,23 +237,23 @@ public class EvaluateVisitor extends Visitor{
         String varName = v.getName();
         boolean flag = false;
         for(HashMap<String, Variable> hm : this.scopeVars){
-           if(hm.containsKey(varName)){
-               this.INT_VALUE = hm.get(varName).getValeur();
-               v.setValeur(this.INT_VALUE);
-               flag = true;
-               break;
-           }
+            if(hm.containsKey(varName)){
+                this.INT_VALUE = hm.get(varName).getValeur();
+                v.setValeur(this.INT_VALUE);
+                flag = true;
+                break;
+            }
         }
     }
-    
+
     public void visit(ID id){
         String varName = id.getName();
         for(HashMap<String, Variable> hm : this.scopeVars){
-           if(hm.containsKey(varName)){
-               this.INT_VALUE = hm.get(varName).getValeur();
-               id.setValeur(this.INT_VALUE);
-               break;
-           }
+            if(hm.containsKey(varName)){
+                this.INT_VALUE = hm.get(varName).getValeur();
+                id.setValeur(this.INT_VALUE);
+                break;
+            }
         }
     }
 

@@ -114,6 +114,12 @@ public class TypeCheckerVisitor extends Visitor{
         o.getElseStatement().accept(this);
         this.TYPE = Type.P_Void;
     }
+    
+    public void visit(WhileDo w){
+        w.getCondition().accept(this);
+        w.getDoStatement().accept(this);
+        this.TYPE = Type.P_Void;
+    }
 
     public void visit(PString o){
         this.TYPE = Type.P_String;

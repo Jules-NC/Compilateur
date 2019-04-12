@@ -4,6 +4,7 @@ public abstract class Visitor{
     }
 
     public abstract void visit(IfThenElse i);
+    public abstract void visit(WhileDo w);
     public abstract void visit(Scope s);
     public abstract void visit(SExpression se);
     public abstract void visit(SInit init);

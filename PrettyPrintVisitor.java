@@ -70,6 +70,14 @@ public class PrettyPrintVisitor extends Visitor {
         String tmp3 = this.STR_VALUE;
         this.STR_VALUE = "IF[(" + tmp1 + ") THEN(" + tmp2 + ") ELSE(" + tmp3 + ")]";
     }
+    
+    public void visit(WhileDo w){
+        w.getCondition().accept(this);
+        String tmp1 = this.STR_VALUE;
+        w.getDoStatement().accept(this);
+        String tmp2 = this.STR_VALUE;
+        this.STR_VALUE = "WHILE[(" + tmp1 + ") DO(" + tmp2 + ")";
+    }
 
     public void visit(Num n) {
         this.STR_VALUE = "NUM(" + Integer.toString(n.getValue()) + ")";

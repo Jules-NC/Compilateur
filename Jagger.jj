@@ -30,6 +30,7 @@ TOKEN:
 |   < TYPE: "int" | "float" | "void">
 |   < ELSE: "else">
 |   < PRINT: "print">
+|	< WHILE: "while">
 
 |   < BOPEN: "(">
 |   < BEND: ")">
@@ -90,6 +91,7 @@ Statement statement5():
   | t=<ID> <EQ> e=expression() <ENDL> {return new SAssign(new Variable(t.toString()), e);}
   | <TYPE> t=<ID> <ENDL> {return new SDecl(t.toString());}
   | <PRINT> <BOPEN> e=expression() <BEND> <ENDL> {return new Print(e);}
+  | <WHILE> <BOPEN> e=expression() <BEND> b=statement5() {return new WhileDo(e, b);}
 }
 
 
