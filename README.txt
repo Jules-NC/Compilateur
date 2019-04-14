@@ -1,11 +1,15 @@
 Membres du groupe : 
+
 	- Jules NEGHNAGH-CHENAVAS
 	- Emilie VEOPASEUTH
 
+	
 Ce qui a été fait : 
 
+Tout a été implémenté jusqu'à la fin
+
 	- Tarball 
-	- Make
+	- Makefile
 	- Make Check
 	- Entiers avec les bonnes priorités
 		- Binaires +, -, *, / et les unaires +, -
@@ -19,7 +23,15 @@ Ce qui a été fait :
 	- Affectation
 	- While
 	- For
+	
 
 Les difficultés rencontrées :
 
-Originalités : 
+Nous n'avons pas compris les syntaxes proposées c'est pour cela que nous avons décidé de créer la nôtre.
+
+Une petite difficulté que nous avons rencontrée a été de passer des Ints aux Strings, nous avons dû réadapter notre code afin de prendre les Strings en compte.
+
+
+Originalité : 
+
+Aucune
