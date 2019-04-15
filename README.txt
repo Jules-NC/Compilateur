@@ -6,7 +6,7 @@ Membres du groupe :
 	
 Ce qui a été fait : 
 
-Tout a été implémenté jusqu'à la fin
+Tout a été implémenté jusqu'à la fin sauf le "for"
 
 	- Tarball 
 	- Makefile
@@ -22,7 +22,6 @@ Tout a été implémenté jusqu'à la fin
 	- Variables et scopes
 	- Affectation
 	- While
-	- For
 	
 
 Les difficultés rencontrées :
