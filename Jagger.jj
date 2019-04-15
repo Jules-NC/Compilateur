@@ -41,6 +41,7 @@ TOKEN:
 |   <ENDL: ";">
 |   <EQ: "=">
 |   < EOL: "\n" >                             // End of line.
+|   < VAR: "var">
 |   < STRING: "\"" (~["\""])*  "\"">
 
 |   < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
@@ -87,9 +88,9 @@ Statement statement5():
 	e = expression() <ENDL> {return new SExpression(e);}
 	| <IF> <BOPEN> e=expression() <BEND> b=statement5() <ELSE> c=statement5() {return new IfThenElse(e, b, c);}
   | <COPEN> ( a=statement5() {s.addStatement(a);} )* <CEND> {return s;}
-  | <TYPE> t=<ID> <EQ> e=expression() <ENDL> {return new SInit(new ID(t.toString()), e);}
+  | <VAR> t=<ID> <EQ> e=expression() <ENDL> {return new SInit(new ID(t.toString()), e);}
   | t=<ID> <EQ> e=expression() <ENDL> {return new SAssign(new Variable(t.toString()), e);}
-  | <TYPE> t=<ID> <ENDL> {return new SDecl(t.toString());}
+//  | <TYPE> t=<ID> <ENDL> {return new SDecl(t.toString());}
   | <PRINT> <BOPEN> e=expression() <BEND> <ENDL> {return new Print(e);}
   | <WHILE> <BOPEN> e=expression() <BEND> b=statement5() {return new WhileDo(e, b);}
 }

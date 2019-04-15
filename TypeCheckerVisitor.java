@@ -105,7 +105,7 @@ public class TypeCheckerVisitor extends Visitor{
 
     public void visit(Print var1){
         var1.getExpression().accept(this);
-        this.TYPE = Type.P_Void;
+        this.TYPE = var1.getExpression().getType();
     }
 
     public void visit(IfThenElse o){
@@ -204,7 +204,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            e.setType(TYPE);
+            e.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");
@@ -218,7 +218,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            n.setType(TYPE);
+            n.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");
@@ -232,7 +232,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            l.setType(TYPE);
+            l.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");
@@ -246,7 +246,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            g.setType(TYPE);
+            g.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");
@@ -260,7 +260,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            l.setType(TYPE);
+            l.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");
@@ -274,7 +274,7 @@ public class TypeCheckerVisitor extends Visitor{
         Type t2 = this.TYPE;
 
         if(t1 == t2){
-            g.setType(TYPE);
+            g.setType(Type.P_Int);
         }
         else {
             throw new RuntimeException("Incorrect Types");

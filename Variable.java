@@ -3,7 +3,7 @@ public class Variable extends Expression {
     private String name;
 
     public Variable(String name) {
-        this.valeur = 0;
+        this.valeur = -1;
         this.name = name;
         this.type = Type.P_Int;
     }

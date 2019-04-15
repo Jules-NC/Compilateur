@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import static java.lang.System.out;
+
 public class EvaluateVisitor extends Visitor{
     public int INT_VALUE;
     public String STR_VALUE;
@@ -54,13 +56,15 @@ public class EvaluateVisitor extends Visitor{
             s.accept(this);
             res += this.STR_VALUE;
         }
-        //res = res.substring(0, res.length()-1);
+        if(res.length() > 0)
+            res = res.substring(0, res.length()-1);
         this.scopeVars.pop();
         this.STR_VALUE = res;
     }
 
     public void visit(SExpression se){
         se.getExpression().accept(this);
+        this.STR_VALUE = "";
     }
 
     public void visit(SInit init){
@@ -73,6 +77,8 @@ public class EvaluateVisitor extends Visitor{
         v.setValeur(tmp1);
         scopeVars.peek().put(varName, v);
         init.getVariabe().setValeur(tmp1);
+        this.STR_VALUE = "";
+
     }
 
     public void visit(SDecl decl) {
@@ -80,6 +86,8 @@ public class EvaluateVisitor extends Visitor{
         Variable v = new Variable(varName);
         v.setValeur(this.scopeVars.peek().get(varName).getValeur());
         this.scopeVars.peek().put(varName, v);
+        this.STR_VALUE = "";
+
     }
 
     public void visit(SAssign a) {
@@ -229,7 +237,6 @@ public class EvaluateVisitor extends Visitor{
                 this.INT_VALUE = 1;
             else 
                 this.INT_VALUE = 0;
-                
         }
     }
 
@@ -316,7 +323,8 @@ public class EvaluateVisitor extends Visitor{
 
     public void visit(Print p) {
         p.getExpression().accept(this);
-        if(this.TYPE == Type.P_Int)
+
+        if(p.getExpression().getType() == Type.P_Int)
             this.STR_VALUE = "" + this.INT_VALUE + "\n";
         else
             this.STR_VALUE = "" + this.STR_VALUE + "\n";

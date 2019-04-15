@@ -11,9 +11,10 @@ public class PrettyPrintVisitor extends Visitor {
     }
 
     public void visit(Print p) {
-       EvaluateVisitor print = new EvaluateVisitor();
-       print.visit(p.getExpression());
-       STR_VALUE = "PRINT(" + print.INT_VALUE + ")";
+       //EvaluateVisitor print = new EvaluateVisitor();
+       //print.visit(p.getExpression());
+        p.getExpression().accept(this);
+        STR_VALUE = "PRINT(" + this.STR_VALUE + ")";
     }
 
 
@@ -56,7 +57,7 @@ public class PrettyPrintVisitor extends Visitor {
             s.accept(this);
             res += this.STR_VALUE+ ", ";
         }
-        
+        res = res.substring(0, res.length()-2);
         res += "}";
         this.STR_VALUE = res;
     }
